@@ -21,11 +21,11 @@ from .managers import StateLogManager
 @python_2_unicode_compatible
 class StateLog(models.Model):
     timestamp = models.DateTimeField(default=now)
-    by = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), blank=True, null=True)
+    by = models.ForeignKey(getattr(settings, 'AUTH_USER_MODEL', 'auth.User'), blank=True, null=True, on_delete=models.SET_NULL)
     state = models.CharField(max_length=255, db_index=True)
     transition = models.CharField(max_length=255)
 
-    content_type = models.ForeignKey(ContentType)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.CharField(db_index=True, max_length=40)
     content_object = GenericForeignKey('content_type', 'object_id')
 
